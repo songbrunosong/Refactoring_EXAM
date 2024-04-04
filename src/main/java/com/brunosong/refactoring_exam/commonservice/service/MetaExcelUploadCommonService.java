@@ -83,7 +83,6 @@ public class MetaExcelUploadCommonService {
             }
             bulkVo.setArea(findAreaCode);
 
-
             metaBulkVoList.add(bulkVo);
         }
 

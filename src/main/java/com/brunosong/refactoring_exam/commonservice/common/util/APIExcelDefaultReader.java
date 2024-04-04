@@ -36,7 +36,7 @@ public class APIExcelDefaultReader implements APIExcelReader {
                 try {
                 	excelStream.close();
                 } catch (Exception e) {
-                	log.debug(e);
+                	log.debug(e.getMessage());
                 }
             }
         }

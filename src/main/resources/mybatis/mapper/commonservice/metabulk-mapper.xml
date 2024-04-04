@@ -6,7 +6,7 @@
     <select id="getCourseCode" resultType="com.brunosong.refactoring_exam.commonservice.domain.MetaItemVo">
         SELECT tgmi.item_seq as item_seq, tgmi.master_seq as master_seq, tgmi.item_name as item_name, tgmi.item_code as item_code
           FROM goods_meta_item tgmi
-          JOIN tb_goods_meta_master tgmm ON tgmi.master_seq = tgmm.master_seq
+          JOIN goods_meta_master tgmm ON tgmi.master_seq = tgmm.master_seq
          WHERE tgmm.meta_code = 'COURSE_CODE'
     </select>
 
@@ -15,6 +15,10 @@
           FROM goods_meta_item tgmi
           JOIN goods_meta_master tgmm ON tgmi.master_seq = tgmm.master_seq
          WHERE tgmm.meta_code = 'CRCM_SCTN_CD'
+    </select>
+
+    <select id="getEqualGoodsTypeAndCourseName" resultType="int" parameterType="com.brunosong.refactoring_exam.commonservice.domain.MetaBulkVo">
+        SELECT count(5) as cnt
     </select>
 
 </mapper>

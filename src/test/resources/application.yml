@@ -7,6 +7,13 @@ spring:
   test:
     database:
       replace: none
+  sql:
+    init:
+      mode: always
+      username: sa
+      password:
+      schema-locations: classpath*:db/meta_schema.sql
+      data-locations: classpath*:db/meta_data.sql
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/*.xml
