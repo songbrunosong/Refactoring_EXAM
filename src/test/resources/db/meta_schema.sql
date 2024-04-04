@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS goods_meta_master;
+DROP TABLE IF EXISTS goods_meta_item;
+
 CREATE TABLE `goods_meta_master` (
     `master_seq` int(11) NOT NULL AUTO_INCREMENT COMMENT '마스터 고유번호',
     `meta_name` varchar(100) DEFAULT NULL COMMENT '메타명',
