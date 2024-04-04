@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.brunosong.refactoring_exam.commonservice.dao.CommonDao">
+
+    <select id="getCourseCode" resultType="com.brunosong.refactoring_exam.commonservice.domain.MetaItemVo">
+        SELECT tgmi.item_seq as item_seq, tgmi.master_seq as master_seq, tgmi.item_name as item_name, tgmi.item_code as item_code
+          FROM goods_meta_item tgmi
+          JOIN tb_goods_meta_master tgmm ON tgmi.master_seq = tgmm.master_seq
+         WHERE tgmm.meta_code = 'COURSE_CODE'
+    </select>
+
+    <select id="getAreaCode" resultType="com.brunosong.refactoring_exam.commonservice.domain.MetaItemVo">
+        SELECT tgmi.item_seq as item_seq, tgmi.master_seq as master_seq, tgmi.item_name as item_name, tgmi.item_code as item_code
+          FROM goods_meta_item tgmi
+          JOIN goods_meta_master tgmm ON tgmi.master_seq = tgmm.master_seq
+         WHERE tgmm.meta_code = 'CRCM_SCTN_CD'
+    </select>
+
+</mapper>
+
