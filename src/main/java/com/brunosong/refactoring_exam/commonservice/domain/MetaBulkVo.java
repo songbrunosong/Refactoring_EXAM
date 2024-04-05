@@ -23,23 +23,24 @@ public class MetaBulkVo {
     String course_detail;    // 대표단원
     String area;            // 영역
 
-    public void changeAreaCode() {
-        this.area = "EVAI".equals(this.course_code) ? "NN00" : "ES01";
-    }
-
     public void changeAreaNameToCode(List<MetaItemVo> areaCodeList) {
 
-        String result = areaCodeList.stream()
-                .filter(metaItemVo -> metaItemVo.getItem_name().equals(this.area))
-                .map(MetaItemVo::getItem_code)
-                .findFirst()
-                .orElse("NOT MATCH");
+        if(!"".equals(this.area)) {
+            if ("기본".equals(this.area)) {
+                this.area = "EVAI".equals(this.course_code) ? "NN00" : "ES01";
+            } else {
+                String result = areaCodeList.stream()
+                        .filter(metaItemVo -> metaItemVo.getItem_name().equals(this.area))
+                        .map(MetaItemVo::getItem_code)
+                        .findFirst()
+                        .orElse("NOT MATCH");
 
-        if(result.equals("NOT MATCH")) {
-            throw new ExcelMetaCheckException(ResultStatus.ERROR_AREA_CODE.getValue());
+                if (result.equals("NOT MATCH")) {
+                    throw new ExcelMetaCheckException(ResultStatus.ERROR_AREA_CODE.getValue());
+                }
+                this.area = result;
+            }
         }
-
-        this.area = result;
     }
 
 

@@ -66,13 +66,7 @@ public class MetaExcelUploadCommonService {
             }
 
             //영역(area) 점검 및 변경
-            if(!"".equals(bulkVo.getArea())) {
-                if("기본".equals(bulkVo.getArea())) {
-                    bulkVo.changeAreaCode();
-                } else {
-                    bulkVo.changeAreaNameToCode(areaCodeList);
-                }
-            }
+            bulkVo.changeAreaNameToCode(areaCodeList);
 
             metaBulkVoList.add(bulkVo);
         }

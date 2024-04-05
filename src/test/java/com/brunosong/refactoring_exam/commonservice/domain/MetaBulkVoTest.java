@@ -36,7 +36,7 @@ class MetaBulkVoTest {
         metaBulkVo.setArea("기본");
         metaBulkVo.setCourse_code("EVAI");
 
-        metaBulkVo.changeAreaCode();
+        metaBulkVo.changeAreaNameToCode(null);
 
         assertThat(metaBulkVo.getArea()).isEqualTo("NN00");
 
@@ -49,7 +49,7 @@ class MetaBulkVoTest {
         metaBulkVo.setArea("기본");
         metaBulkVo.setCourse_code("XXXX");
 
-        metaBulkVo.changeAreaCode();
+        metaBulkVo.changeAreaNameToCode(null);
 
         assertThat(metaBulkVo.getArea()).isEqualTo("ES01");
 
