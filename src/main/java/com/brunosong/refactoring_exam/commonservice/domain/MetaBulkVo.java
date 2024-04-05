@@ -1,8 +1,11 @@
 package com.brunosong.refactoring_exam.commonservice.domain;
 
+import com.brunosong.refactoring_exam.commonservice.handler.ex.ExcelMetaCheckException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,5 +22,25 @@ public class MetaBulkVo {
     String subject_day;    // 과목차시
     String course_detail;    // 대표단원
     String area;            // 영역
+
+    public void changeAreaCode() {
+        this.area = "EVAI".equals(this.course_code) ? "NN00" : "ES01";
+    }
+
+    public void changeAreaNameToCode(List<MetaItemVo> areaCodeList) {
+
+        String result = areaCodeList.stream()
+                .filter(metaItemVo -> metaItemVo.getItem_name().equals(this.area))
+                .map(MetaItemVo::getItem_code)
+                .findFirst()
+                .orElse("NOT MATCH");
+
+        if(result.equals("NOT MATCH")) {
+            throw new ExcelMetaCheckException(ResultStatus.ERROR_AREA_CODE.getValue());
+        }
+
+        this.area = result;
+    }
+
 
 }

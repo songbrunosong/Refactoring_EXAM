@@ -67,14 +67,11 @@ public class MetaExcelUploadCommonService {
 
             //영역(area) 점검 및 변경
             if(!"".equals(bulkVo.getArea())) {
-
-                String areaCode = "";
                 if("기본".equals(bulkVo.getArea())) {
-                    areaCode = "EVAI".equals(courseCode) ? "NN00" : "ES01";
+                    bulkVo.changeAreaCode();
                 } else {
-                    areaCode = findAreaCode(areaCodeList, bulkVo.getArea());
+                    bulkVo.changeAreaNameToCode(areaCodeList);
                 }
-                bulkVo.setArea(areaCode );
             }
 
             metaBulkVoList.add(bulkVo);
@@ -106,20 +103,7 @@ public class MetaExcelUploadCommonService {
     }
 
 
-    public String findAreaCode(List<MetaItemVo> areaCodeList ,String areaCodeName) {
 
-        String result = areaCodeList.stream()
-                .filter(metaItemVo -> metaItemVo.getItem_name().equals(areaCodeName))
-                .map(MetaItemVo::getItem_code)
-                .findFirst()
-                .orElse("NOT MATCH");
-
-        if(result.equals("NOT MATCH")) {
-            throw new ExcelMetaCheckException(ResultStatus.ERROR_AREA_CODE.getValue());
-        }
-
-        return result;
-    }
 
 
     /* 순서 중복을 확인하는 메서드 */

@@ -30,22 +30,4 @@ public class MetaExcelUploadCommonServiceRefactoringTest {
     }
 
 
-    @Test
-    void AREA_CODE_NAME으로_AREA_CODE_찾기() {
-
-        //given
-        List<MetaItemVo> areaCodeList = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
-            areaCodeList.add(new MetaItemVo(String.valueOf(i),"1","영역코드명" + i ,"AREA_" + i ));
-        }
-        String areaCodeName = "영역코드명1";
-
-        //when
-        MetaExcelUploadCommonService commonService = new MetaExcelUploadCommonService(null);
-        String courseCode = commonService.findAreaCode(areaCodeList, areaCodeName);
-
-        //then
-        assertThat(courseCode).isEqualTo("AREA_1");
-    }
-
 }
