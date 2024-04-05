@@ -65,12 +65,14 @@ public class MetaExcelUploadCommonService {
                     .findFirst()
                     .orElse("");
 
-            int equalCountGoodsTypeAndCourseCode = commonDao.getEqualGoodsTypeAndCourseName(bulkVo);
-            if(findCourseCode.equals("") || equalCountGoodsTypeAndCourseCode == 0) {
+            if(findCourseCode.equals("")) {
                 throw new MetabulkCustomApiException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
             }
-
             bulkVo.setCourse_code(findCourseCode);
+
+            if(commonDao.getEqualGoodsTypeAndCourseName(bulkVo) == 0) {
+                throw new MetabulkCustomApiException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
+            }
 
             //영역(area) 점검 및 변경
             String area = bulkVo.getArea();
