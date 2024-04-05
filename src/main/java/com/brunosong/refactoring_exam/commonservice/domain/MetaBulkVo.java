@@ -13,6 +13,7 @@ import java.util.List;
 public class MetaBulkVo {
 
     String seq;
+    String topId;    //소속된 ID
     String grade;    // 학년
     String term;    // 학기
     String week;    // 주차

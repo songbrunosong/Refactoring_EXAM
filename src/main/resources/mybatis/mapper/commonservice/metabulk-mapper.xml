@@ -21,5 +21,17 @@
         SELECT count(5) as cnt
     </select>
 
+    <select id="goodsTypeAndCourseName" parameterType="String" resultType="">
+        <if test="topId == '1'">
+            SELECT 1 as topId , 'KORN' as courseCode
+        </if>
+        <if test="topId == '2'">
+            SELECT '2' as topId , 'ENWD' as courseCode
+        </if>
+        <if test="topId == '3'">
+            SELECT '3' as topId , 'KORD' as courseCode
+        </if>
+    </select>
+
 </mapper>
 

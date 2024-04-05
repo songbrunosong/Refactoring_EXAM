@@ -15,6 +15,9 @@ public interface CommonDao {
 
     int getEqualGoodsTypeAndCourseName(MetaBulkVo metaBulkVo);
 
+    /* 추후예제를 위해서 남겨둔다. */
+    List<MetaItemVo> goodsTypeAndCourseNameList(String topId);
+
     int deleteTempMetaTable();
 
     int insertTempMetaTable(List<MetaBulkVo> metaBulkVoList);

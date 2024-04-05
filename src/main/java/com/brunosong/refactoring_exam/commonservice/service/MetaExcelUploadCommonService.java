@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +49,7 @@ public class MetaExcelUploadCommonService {
         for (LinkedHashMap<String, Object> row : excelMapList) {
 
             MetaBulkVo bulkVo = new MetaBulkVo();
+            bulkVo.setTopId((String) row.get("최상위ID"));
             bulkVo.setGrade((String) row.get("학년"));
             bulkVo.setTerm((String) row.get("학기"));
             bulkVo.setWeek((String) row.get("주차"));
@@ -61,16 +63,15 @@ public class MetaExcelUploadCommonService {
             //코스코드로 변경
             bulkVo.changeCourseNameToCode(courseCodeList);
 
-            if(commonDao.getEqualGoodsTypeAndCourseName(bulkVo) == 0) {
-                throw new MetabulkCustomApiException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
-            }
-
             //영역코드로 변경
             bulkVo.changeAreaNameToCode(areaCodeList);
 
             metaBulkVoList.add(bulkVo);
         }
 
+        if (commonDao.getEqualGoodsTypeAndCourseName(metaBulkVoList.get(0)) == 0) {
+            throw new MetabulkCustomApiException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
+        }
 
         ResultStatus resultStatus = curriculumDuplicateNumCheck(metaBulkVoList);
         if(resultStatus != ResultStatus.SUCCESS) {
