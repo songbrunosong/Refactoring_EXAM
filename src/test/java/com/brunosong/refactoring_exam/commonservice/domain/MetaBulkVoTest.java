@@ -55,4 +55,24 @@ class MetaBulkVoTest {
 
     }
 
+
+    @Test
+    void 코스코드이름을_코스코드로_변경하기(){
+
+        //given
+        List<MetaItemVo> courseCodeList = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) {
+            courseCodeList.add(new MetaItemVo(String.valueOf(i),"1","코스코드명_" + i ,"COURSE_CODE_" + i ));
+        }
+
+        //when
+        MetaBulkVo metaBulkVo = new MetaBulkVo();
+        metaBulkVo.setCourse_code("코스코드명_1");
+        metaBulkVo.changeCourseNameToCode(courseCodeList);
+
+        //then
+        assertThat(metaBulkVo.getCourse_code()).isEqualTo("COURSE_CODE_1");
+
+    }
+
 }

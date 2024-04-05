@@ -44,4 +44,20 @@ public class MetaBulkVo {
     }
 
 
+    public void changeCourseNameToCode(List<MetaItemVo> courseCodeList) {
+
+        String result = courseCodeList.stream()
+                .filter(item -> item.getItem_name().equals(this.course_code))
+                .map(MetaItemVo::getItem_code)
+                .findFirst()
+                .orElse("");
+
+        if(result.equals("")) {
+            throw new ExcelMetaCheckException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
+        }
+
+        this.course_code = result;
+    }
+
+
 }

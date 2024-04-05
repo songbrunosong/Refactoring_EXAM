@@ -57,15 +57,15 @@ public class MetaExcelUploadCommonService {
             bulkVo.setSubject_day(((String) row.get("과목차시")).replace("'", ""));
             bulkVo.setCourse_detail((String) row.get("대표단원(한글/국어)"));
             bulkVo.setArea((String) row.get("영역"));
-
-            String courseCode = findCourseCode(courseCodeList, bulkVo.getCourse_code());
-            bulkVo.setCourse_code(courseCode);
+            
+            //코스코드로 변경
+            bulkVo.changeCourseNameToCode(courseCodeList);
 
             if(commonDao.getEqualGoodsTypeAndCourseName(bulkVo) == 0) {
                 throw new MetabulkCustomApiException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
             }
 
-            //영역(area) 점검 및 변경
+            //영역코드로 변경
             bulkVo.changeAreaNameToCode(areaCodeList);
 
             metaBulkVoList.add(bulkVo);
@@ -79,25 +79,6 @@ public class MetaExcelUploadCommonService {
 
         return metaBulkVoList;
     }
-
-
-    public String findCourseCode(List<MetaItemVo> courseCodeList, String courseCodeName) {
-
-        String result= courseCodeList.stream()
-                .filter(item -> item.getItem_name().equals(courseCodeName))
-                .map(MetaItemVo::getItem_code)
-                .findFirst()
-                .orElse("");
-
-        if(result.equals("")) {
-            throw new ExcelMetaCheckException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
-        }
-
-        return result;
-    }
-
-
-
 
 
     /* 순서 중복을 확인하는 메서드 */
