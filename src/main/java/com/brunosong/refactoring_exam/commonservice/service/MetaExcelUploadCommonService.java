@@ -3,6 +3,7 @@ package com.brunosong.refactoring_exam.commonservice.service;
 import com.brunosong.refactoring_exam.commonservice.common.util.MetaCheckUtil;
 import com.brunosong.refactoring_exam.commonservice.dao.CommonDao;
 import com.brunosong.refactoring_exam.commonservice.domain.*;
+import com.brunosong.refactoring_exam.commonservice.handler.ex.ExcelMetaCheckException;
 import com.brunosong.refactoring_exam.commonservice.handler.ex.MetabulkCustomApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,18 +58,8 @@ public class MetaExcelUploadCommonService {
             bulkVo.setCourse_detail((String) row.get("대표단원(한글/국어)"));
             bulkVo.setArea((String) row.get("영역"));
 
-            //과목코드 점검 및 변경
-            String course_code = bulkVo.getCourse_code();
-            String findCourseCode = courseCodeList.stream()
-                    .filter(item -> item.getItem_name().equals(course_code))
-                    .map(MetaItemVo::getItem_code)
-                    .findFirst()
-                    .orElse("");
-
-            if(findCourseCode.equals("")) {
-                throw new MetabulkCustomApiException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
-            }
-            bulkVo.setCourse_code(findCourseCode);
+            String courseCode = findCourseCode(courseCodeList, bulkVo.getCourse_code());
+            bulkVo.setCourse_code(courseCode);
 
             if(commonDao.getEqualGoodsTypeAndCourseName(bulkVo) == 0) {
                 throw new MetabulkCustomApiException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
@@ -78,7 +69,7 @@ public class MetaExcelUploadCommonService {
             String area = bulkVo.getArea();
             String findAreaCode =
                     "".equals(area) ? "" : //공백값도 허용하기 때문에
-                            "기본".equals(area) ? ("EVAI".equals(findCourseCode) ? "NN00" : "ES01")
+                            "기본".equals(area) ? ("EVAI".equals(courseCode) ? "NN00" : "ES01")
                                     : areaCodeList.stream()
                                     .filter(metaItemVo -> metaItemVo.getItem_name().equals(area))
                                     .map(MetaItemVo::getItem_code)
@@ -99,6 +90,22 @@ public class MetaExcelUploadCommonService {
         }
 
         return metaBulkVoList;
+    }
+
+
+    public String findCourseCode(List<MetaItemVo> courseCodeList, String courseCodeName) {
+
+        String result= courseCodeList.stream()
+                .filter(item -> item.getItem_name().equals(courseCodeName))
+                .map(MetaItemVo::getItem_code)
+                .findFirst()
+                .orElse("");
+
+        if(result.equals("")) {
+            throw new ExcelMetaCheckException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
+        }
+
+        return result;
     }
 
 
