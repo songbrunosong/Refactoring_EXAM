@@ -1,5 +1,6 @@
 package com.brunosong.refactoring_exam.commonservice.service;
 
+import com.brunosong.refactoring_exam.commonservice.common.util.MetaCheckUtil;
 import com.brunosong.refactoring_exam.commonservice.dao.CommonDao;
 import com.brunosong.refactoring_exam.commonservice.domain.*;
 import com.brunosong.refactoring_exam.commonservice.handler.ex.MetabulkCustomApiException;
@@ -35,10 +36,13 @@ public class MetaExcelUploadCommonService {
         List<MetaItemVo> courseCodeList = commonDao.getCourseCode();
         List<MetaItemVo> areaCodeList = commonDao.getAreaCode();
 
-        ResultStatus resultStatus = checkColumnAndRow(excelMapList);
-        if(resultStatus != ResultStatus.SUCCESS) {
-            throw new MetabulkCustomApiException(resultStatus.getValue());
+        MetaCheckUtil.checkRowCount(excelMapList);
+
+        Set<String> enumValues = new HashSet<>();
+        for (CurriculumColumn enumValue : EnumSet.allOf(CurriculumColumn.class)) {
+            enumValues.add(enumValue.getValue());
         }
+        MetaCheckUtil.checkColumnName(excelMapList.get(0), enumValues);
 
         for (LinkedHashMap<String, Object> row : excelMapList) {
 
@@ -87,37 +91,12 @@ public class MetaExcelUploadCommonService {
         }
 
 
-        resultStatus = curriculumDuplicateNumCheck(metaBulkVoList);
+        ResultStatus resultStatus = curriculumDuplicateNumCheck(metaBulkVoList);
         if(resultStatus != ResultStatus.SUCCESS) {
             throw new MetabulkCustomApiException(resultStatus.getValue());
         }
 
         return metaBulkVoList;
-    }
-
-
-    /* 컬럼명 입력량 체크 */
-    private ResultStatus checkColumnAndRow(List<LinkedHashMap<String, Object>> excelMapList) {
-
-        if (excelMapList.size() > 2000) {
-            throw new MetabulkCustomApiException(ResultStatus.ERROR_TOO_MANY_ROW.getValue());
-        }
-
-        //컬럼값이 맞는지 확인 -> 맞지 않으면 error 리턴
-        Set<String> enumValues = new HashSet<>();
-        for (CurriculumColumn enumValue : EnumSet.allOf(CurriculumColumn.class)) {
-            enumValues.add(enumValue.getValue());
-        }
-
-        LinkedHashMap<String, Object> columnCheckRow = excelMapList.get(0);
-        Set<String> keySet = columnCheckRow.keySet();
-        for (String key : keySet) {
-            if (!enumValues.contains(key)) {
-                return ResultStatus.ERROR_COLUMN;
-            }
-        }
-
-        return ResultStatus.SUCCESS;
     }
 
 
