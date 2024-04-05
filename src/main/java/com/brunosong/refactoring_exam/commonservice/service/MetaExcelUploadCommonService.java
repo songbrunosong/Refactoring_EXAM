@@ -70,14 +70,7 @@ public class MetaExcelUploadCommonService {
             String findAreaCode =
                     "".equals(area) ? "" : //공백값도 허용하기 때문에
                             "기본".equals(area) ? ("EVAI".equals(courseCode) ? "NN00" : "ES01")
-                                    : areaCodeList.stream()
-                                    .filter(metaItemVo -> metaItemVo.getItem_name().equals(area))
-                                    .map(MetaItemVo::getItem_code)
-                                    .findFirst()
-                                    .orElse("NOT MATCH");
-            if(findAreaCode.equals("NOT MATCH")) {
-                throw new MetabulkCustomApiException(ResultStatus.ERROR_AREA_CODE.getValue());
-            }
+                                    : findAreaCode(areaCodeList, bulkVo.getArea());
             bulkVo.setArea(findAreaCode);
 
             metaBulkVoList.add(bulkVo);
@@ -103,6 +96,22 @@ public class MetaExcelUploadCommonService {
 
         if(result.equals("")) {
             throw new ExcelMetaCheckException(ResultStatus.ERROR_LEVEL2_COURSE_CODE.getValue());
+        }
+
+        return result;
+    }
+
+
+    public String findAreaCode(List<MetaItemVo> areaCodeList ,String areaCodeName) {
+
+        String result = areaCodeList.stream()
+                .filter(metaItemVo -> metaItemVo.getItem_name().equals(areaCodeName))
+                .map(MetaItemVo::getItem_code)
+                .findFirst()
+                .orElse("NOT MATCH");
+
+        if(result.equals("NOT MATCH")) {
+            throw new ExcelMetaCheckException(ResultStatus.ERROR_AREA_CODE.getValue());
         }
 
         return result;
