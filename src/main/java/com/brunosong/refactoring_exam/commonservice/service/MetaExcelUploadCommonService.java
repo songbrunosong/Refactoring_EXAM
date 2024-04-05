@@ -67,8 +67,14 @@ public class MetaExcelUploadCommonService {
 
             //영역(area) 점검 및 변경
             if(!"".equals(bulkVo.getArea())) {
-                String areaCode = "기본".equals(bulkVo.getArea()) ? ("EVAI".equals(courseCode) ? "NN00" : "ES01") : findAreaCode(courseCodeList, bulkVo.getArea());
-                bulkVo.setArea(areaCode);
+
+                String areaCode = "";
+                if("기본".equals(bulkVo.getArea())) {
+                    areaCode = "EVAI".equals(courseCode) ? "NN00" : "ES01";
+                } else {
+                    areaCode = findAreaCode(areaCodeList, bulkVo.getArea());
+                }
+                bulkVo.setArea(areaCode );
             }
 
             metaBulkVoList.add(bulkVo);
