@@ -27,6 +27,9 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     implementation 'org.apache.poi:poi:3.9'
     implementation 'org.apache.poi:poi-ooxml:3.9'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.mashape.unirest:unirest-java:1.4.9'
+    implementation group: 'org.json', name: 'json', version: '20240303'
 
     implementation 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
