@@ -55,11 +55,15 @@ public class DeskService {
 			infos = selectStudyGdncByChap(gdncByChapParaMap);
 
 			if(infos != null && !infos.isEmpty()){
-				//--------------------------------------------------
-				//준비학습 내 예측정보 조회
-				//--------------------------------------------------
-				gdncByChapParaMap.put("req_data", REQ_DATA);
-				Map<String, Object> unitEstimatedInfo = aiCommonApi.getUnitEstimatedByUnit(gdncByChapParaMap);
+
+				AiApiRequest aiApiRequest = AiApiRequest.builder()
+						.req_data(REQ_DATA)
+						.order_seq(order_seq)
+						.unit_seq(unit_seq)
+						.course_code(course_code)
+						.build();
+
+				Map<String, Object> unitEstimatedInfo = aiCommonApi.getUnitEstimatedByUnit(aiApiRequest);
 				if(unitEstimatedInfo != null){
 					infos.get(0).putAll(unitEstimatedInfo);
 				}

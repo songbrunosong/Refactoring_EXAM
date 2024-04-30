@@ -32,14 +32,16 @@ public class AICenterService {
             // 예측정보 조회 & 성취코스 정보 추가
             for(int i=0; i<studyList.size(); i++) {
                 Map<String, Object> infoMap = studyList.get(i);
+                int unit_seq = (int)infoMap.get("UNIT_SEQ");
 
-                paraMap.clear();
-                paraMap.put("req_data", REQ_DATA);
-                paraMap.put("order_seq", order_seq);
-                paraMap.put("course_code", infoMap.get("COURSE_CODE").toString());
-                paraMap.put("unit_seq", infoMap.get("UNIT_SEQ").toString());
+                AiApiRequest aiApiRequest = AiApiRequest.builder()
+                        .req_data(REQ_DATA)
+                        .order_seq(order_seq)
+                        .unit_seq(unit_seq)
+                        .course_code(infoMap.get("COURSE_CODE").toString())
+                        .build();
 
-                tmpMap = aiCommonApi.getUnitEstimatedByUnit(paraMap);
+                tmpMap = aiCommonApi.getUnitEstimatedByUnit(aiApiRequest);
 
                 studyList.get(i).put("DF_DATA", tmpMap);
 

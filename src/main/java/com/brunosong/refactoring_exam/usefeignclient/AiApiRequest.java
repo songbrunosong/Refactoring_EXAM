@@ -11,8 +11,7 @@ public class AiApiRequest {
 
     private TemplateReq req_data;
     private int order_seq;
-    private String system_code;
-    private String svc_ymd;
     private String course_code;
+    private int unit_seq;
 
 }

@@ -48,23 +48,16 @@ public class AiCommonApi {
     /**
      * [AI] 준비학습 내 예측정보 조회
      */
-    public Map<String, Object> getUnitEstimatedByUnit(Map<String, Object> reqMap) throws Exception {
+    public Map<String, Object> getUnitEstimatedByUnit(AiApiRequest aiApiRequest) throws Exception {
 
 
         Map<String, Object> resultMap = null;
 
         try {
 
-            int order_seq          = CommonUtil.obj2Integer(reqMap.get("order_seq"));	//오더일련번호
-            String course_code     = CommonUtil.getString(reqMap.get("course_code"));	//과목코드
-            int unit_seq           = CommonUtil.obj2Integer(reqMap.get("unit_seq"));	//차시일련번호
-            TemplateReq req_data   = (TemplateReq)reqMap.get("req_data");
+            String aiUri = "/ai/v1.0/unitEstimated/courses/"+ aiApiRequest.getCourse_code() + "/orders/" + aiApiRequest.getOrder_seq() +"/units/"+ aiApiRequest.getUnit_seq();
 
-            //--------------------------------------------------
-            //준비학습 내 예측정보 조회
-            //--------------------------------------------------
-            String aiUri = "/ai/v1.0/unitEstimated/courses/"+course_code+"/orders/"+order_seq+"/units/"+unit_seq;
-            List<Map<String, Object>> resultList = httpManager.requestGetUri(aiUri, req_data);
+            List<Map<String, Object>> resultList = httpManager.requestGetUri(aiUri, aiApiRequest.getReq_data());
             if(resultList!=null && resultList.size() > 0){
                 resultMap = resultList.get(0);
             }
