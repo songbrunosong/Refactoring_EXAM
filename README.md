@@ -4,4 +4,4 @@
 
 1. https://www.notion.so/2e02d7e9cb5349509b80c3cd4c4dec25
    2. commonservice 패키지
-2. 
+2. AI API 테스트를 위하여 AI_SERVICE를 모듈로 추가 

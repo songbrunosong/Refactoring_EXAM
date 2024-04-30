@@ -30,7 +30,7 @@ public class AiCommonApi {
             //--------------------------------------------------
             //AI 서비스 정보 조회
             //--------------------------------------------------
-            List<Map<String, Object>> aiInfoList = httpManager.requestGetUri("/ai/v1.0/report/aiService/orders/"+order_seq, req_data);
+            List<Map<String, Object>> aiInfoList = httpManager.requestGetUri("/ai/v1.0/report/aiService/orders/" + order_seq, req_data);
 
             if(aiInfoList != null && aiInfoList.size() > 0){
                 aiInfo = aiInfoList.get(0);
