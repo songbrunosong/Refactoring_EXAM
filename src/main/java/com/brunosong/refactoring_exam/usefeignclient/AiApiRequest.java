@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @Builder
 @AllArgsConstructor
-public class AiRequestParam {
+public class AiApiRequest {
 
     private TemplateReq req_data;
     private int order_seq;
