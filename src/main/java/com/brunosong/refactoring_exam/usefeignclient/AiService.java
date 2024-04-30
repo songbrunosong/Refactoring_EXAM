@@ -36,13 +36,14 @@ public class AiService {
 
 			/* 500 줄 삭제 */
 
-			// 수준별 영어 도서관
-			Map<String, Object> enspParam = new HashMap<String, Object>();
-			enspParam.put("order_seq", order_seq);
-			enspParam.put("system_code", system_code);
-			enspParam.put("req_data", REQ_DATA);
+			AiRequestParam aiRequestParam = AiRequestParam.builder()
+					.req_data(REQ_DATA)
+					.order_seq(order_seq)
+					.system_code(system_code)
+					.build();
 
-			Map<String, Object> enspStatusInfo = aiCommonApi.selectEnspStatus(enspParam);
+
+			Map<String, Object> enspStatusInfo = aiCommonApi.selectEnspStatus(aiRequestParam);
 			resultMap.put("ENSP_STATUS_INFO", enspStatusInfo);
 
 			RESP_BUILDER.setRESP_BODY(resultMap);
@@ -66,16 +67,18 @@ public class AiService {
 
 			/* 코드 삭제 */
 
-			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("req_data", REQ_DATA);
-			paramMap.put("order_seq", order_seq);
-			paramMap.put("system_code", system_code);
-			paramMap.put("svc_ymd", svc_ymd);
-
 			/* 1000줄 이상 코드 삭제 */
 
+
+			AiRequestParam aiRequestParam = AiRequestParam.builder()
+					.req_data(REQ_DATA)
+					.order_seq(order_seq)
+					.system_code(system_code)
+					.svc_ymd(svc_ymd)
+					.build();
+
 			/* TARGET */
-			Map<String, Object> enspStatusInfo = aiCommonApi.selectEnspStatus(paramMap);
+			Map<String, Object> enspStatusInfo = aiCommonApi.selectEnspStatus(aiRequestParam);
 			result.put("ENSP_STATUS_INFO", enspStatusInfo);
 
 			/* 수많은 후 작업 코드 삭제 */
@@ -98,24 +101,19 @@ public class AiService {
 
 			/* 코드 200줄 삭제 */
 
-			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("order_seq", order_seq);
-			paramMap.put("system_code", system_code);
-
-
 			/* 코드 1000줄 삭제 */
 
+			AiRequestParam aiRequestParam = AiRequestParam.builder()
+					.req_data(REQ_DATA)
+					.order_seq(order_seq)
+					.system_code(system_code)
+					.svc_ymd("ENRD")
+					.build();
 
-			paramMap.clear();
-			paramMap.put("order_seq", order_seq);
-			paramMap.put("system_code", system_code);
-			paramMap.put("req_data", REQ_DATA);
-			paramMap.put("course_code", "ENRD");
+			/* TARGET */
+			Map<String, Object> enspStatusInfo = aiCommonApi.selectEnspStatus(aiRequestParam);
 
 			Map<String, Object> enspInfo = new HashMap<String, Object>();
-
-			// 수준별 영어도서관 현재 단계 정보
-			Map<String, Object> enspStatusInfo = aiCommonApi.selectEnspStatus(paramMap);
 			enspInfo.put("ENSP_STATUS_INFO", enspStatusInfo);
 
 			result.put("ENSP_INFO", enspInfo);
